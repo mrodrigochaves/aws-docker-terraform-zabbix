@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3'
 
 networks:
   network-zabbix:
@@ -22,7 +22,7 @@ services:
 
   zabbix-server:
     container_name: zabbix-server
-    image: zabbix/zabbix-web-nginx-mysql:ubuntu-5.0.1
+    image: zabbix/zabbix-server-mysql:ubuntu-5.0.1
     networks:
       - network-zabbix
     links:
@@ -42,7 +42,7 @@ services:
 
   zabbix-frontend:
     container_name: zabbix-frontend
-    image: zabbix/zabbix-web-nginx-mysql
+    image: zabbix/zabbix-web-nginx-mysql:ubuntu-5.0.1
     networks:
       - network-zabbix
     links:
@@ -62,7 +62,7 @@ services:
    
   grafana:
     container_name: grafana
-    image: grafana/grafana
+    image: grafana/grafana:latest
     networks:
       - network-zabbix
     links:
@@ -73,12 +73,39 @@ services:
       - '3000:3000'
     environment: 
       - GF_INSTALL_PLUGINS=alexanderzobnin-zabbix-app
+    volumes:
+      - grafana-config:/etc/grafana:rw
+      - grafana-data:/var/lib/grafana:rw
+      - grafana-home:/usr/share/grafana:rw  
     depends_on:
       - mysql
       - zabbix-server
+      - cadvisor
+
+  cadvisor:
+    image: gcr.io/google-containers/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+    - redis
+    networks:
+      - network-zabbix    
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+    - 6379:6379
+    networks:
+    - network-zabbix   
   zabbix-agent:
     container_name: zabbix-agent
-    image: zabbix/zabbix-agent
+    image: zabbix/zabbix-agent:ubuntu-5.0-latest
     user: root
     networks:
       - network-zabbix
@@ -92,4 +119,5 @@ services:
       - '10050:10050'
     environment:
       - ZBX_HOSTNAME=Zabbix server
-      - ZBX_SERVER_HOST=172.31.37.85
+      
+  

@@ -1,9 +1,7 @@
 version: '3'
-
 networks:
   network-zabbix:
     driver: bridge
-
 services:
   mysql:
     container_name: mysql

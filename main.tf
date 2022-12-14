@@ -59,7 +59,6 @@ variable "key_name" {
     default = "sga-key"
 }
 
-
 # Provisionando Instância
 resource "aws_instance" "zabbix-sv" {
   ami           = "ami-0a6b2839d44d781b2"
@@ -73,13 +72,13 @@ resource "aws_instance" "zabbix-sv" {
               echo "Olá, Terraform & AWS" > index.html
               nohup busybox httpd -f -p "${var.http_port}" &
               EOF
-
   tags = {
     Name = "zabbix-sv"
     ambiente = "zabbix"
   }
 }
 
+# Provisionando Security Group
 resource "aws_security_group" "zabbix-server-sg" {
   name        = "zabbix-server-sg"
   description = "Allow SSH and HTTP traffic on EC2 instance"
@@ -92,7 +91,6 @@ resource "aws_security_group" "zabbix-server-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   ingress {
     description = "HTTP to EC2"
     from_port   = var.http_port
@@ -100,14 +98,12 @@ resource "aws_security_group" "zabbix-server-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   tags = {
     Name = "zabbix-server-sg"
   }

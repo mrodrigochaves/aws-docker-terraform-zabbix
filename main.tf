@@ -59,12 +59,20 @@ variable "key_name" {
     default = "sga-key"
 }
 
+
+# Provisionando Instância
 resource "aws_instance" "zabbix-sv" {
   ami           = "ami-0a6b2839d44d781b2"
   instance_type = "t2.micro"
   key_name = var.key_name
-  vpc_security_group_ids = [aws_security_group.sg-zabbix-server.id]
+  vpc_security_group_ids = [aws_security_group.zabbix-server-sg.id]
   associate_public_ip_address = true
+
+  user_data = <<-EOF
+              #!/bin/bash
+              echo "Olá, Terraform & AWS" > index.html
+              nohup busybox httpd -f -p "${var.http_port}" &
+              EOF
 
   tags = {
     Name = "zabbix-sv"
@@ -72,10 +80,10 @@ resource "aws_instance" "zabbix-sv" {
   }
 }
 
-resource "aws_security_group" "sg-zabbix-server" {
-  name        = "sg-zabbix-server"
+resource "aws_security_group" "zabbix-server-sg" {
+  name        = "zabbix-server-sg"
   description = "Allow SSH and HTTP traffic on EC2 instance"
-  vpc_id      = var.vpc_id
+  vpc_id      = aws_vpc.zabbix-vpc.id
 
   ingress {
     description = "SSH to EC2"
@@ -87,8 +95,8 @@ resource "aws_security_group" "sg-zabbix-server" {
 
   ingress {
     description = "HTTP to EC2"
-    from_port   = 80
-    to_port     = 80
+    from_port   = var.http_port
+    to_port     = var.http_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -101,8 +109,16 @@ resource "aws_security_group" "sg-zabbix-server" {
   }
 
   tags = {
-    Name = "sg-zabbix-server"
+    Name = "zabbix-server-sg"
   }
 }
-
+variable "http_port" {
+  description = "The port the sweb erver will be listening"
+  type        = number
+  default     = 8080
+}
+output "public_ip" {
+  value       = aws_instance.zabbix-sv.public_ip
+  description = "The public IP of the web server"
+}
 

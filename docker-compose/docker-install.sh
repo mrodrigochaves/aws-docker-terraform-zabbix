@@ -1,3 +1,4 @@
+#!/bin/bash
 # Instalação do Docker
 curl -fsSl  https://get.docker.com/| sh
 

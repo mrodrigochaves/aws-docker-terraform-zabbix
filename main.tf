@@ -72,7 +72,7 @@ resource "aws_instance" "zabbix-sv" {
  
  user_data = <<-EOF
               #!/bin/bash
-              echo "Olá, Terraform & AWS" > index.html
+              echo "Sucesso! Terraform & AWS" > index.html
               nohup busybox httpd -f -p "${var.http_port}" &
               EOF
 

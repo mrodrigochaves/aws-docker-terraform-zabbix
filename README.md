@@ -30,14 +30,15 @@ Click no link para instalar o [AWS CLI](https://docs.aws.amazon.com/pt_br/cli/la
     terraform plan -out tfplan 
     terraform apply "tfplan"
 
-### Instalando Docker, Docker Compose e executando
->>Acesse o Ubuntu via ssh
+## Instalando Docker, Docker Compose e executando
+### Acesse o Ubuntu via ssh
+>> Lembre-se de substituir as informações da chave .pem e ip de acordo com sua instância
 
     sudo chmod 400 ec2.pem
     ssh -i ec2.pem ubuntu@<ec2-ip>
     sudo apt-get update
 
->>Instale o Docker
+###Instale o Docker
 
     cd /tmp
     sudo curl https://raw.githubusercontent.com/mrodrigochaves/aws-docker-terraform-zabbix/main/docker-install.sh -O -J -L

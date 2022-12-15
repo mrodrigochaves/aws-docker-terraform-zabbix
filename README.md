@@ -8,19 +8,24 @@ Projeto de provisionamento de servidor Zabbix utilizando containeres Docker de f
 ### Provisionando instância na AWS
 
 Instale o Terraform no Cloud Shell com os seguintes passos:
-    
->Faça o upload do arquivo terraform-install.sh
 
 >>Execute:
-
-    sudo chmod +x terraform-install.sh
-    sudo ./terraform-install.sh
     
->>Execute o Terraform.
+    sudo yum install -y yum-utils
+    sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+    sudo yum -y install terraform
 
+>>Baixando arquivos Terraform
+
+    curl https://mr-aws-zabbix.s3.amazonaws.com/terraform.zip -O -J -L
+    unzip terraform.zip
+    cd terraform
+
+>>Executando Terraform
+    
     terraform init
-	terraform plan
-	terraform apply
+    terraform plan -out tfplan 
+    terraform apply "tfplan"
 
 ### Instalando Docker, Docker Compose e executando
 >>Acesse o Ubuntu via ssh
@@ -36,4 +41,4 @@ Instale o Terraform no Cloud Shell com os seguintes passos:
     sudo chmod +x docker-install.sh
     sudo ./docker-install.sh
 
-    
+

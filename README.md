@@ -7,7 +7,7 @@ Projeto de provisionamento de servidor Zabbix utilizando containeres Docker de f
 
 ### Provisionando instância na AWS
 
-Instale o Terraform no Cloud Shell com os seguintes passos:
+Instale o Terraform no Cloud Shell ou AWS CLI com os seguintes passos:
 
 >>Execute:
     

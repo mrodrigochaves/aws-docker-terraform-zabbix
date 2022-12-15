@@ -47,7 +47,7 @@ services:
       - mysql
     restart: always
     ports:
-      - '80:8080'
+      - '8050:8080'
       - '443:8443'
     environment:
       - DB_SERVER_HOST=mysql
@@ -84,7 +84,7 @@ services:
     image: gcr.io/google-containers/cadvisor:latest
     container_name: cadvisor
     ports:
-      - 8080:8080
+      - 8060:8080
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw

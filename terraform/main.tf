@@ -55,7 +55,7 @@ resource "aws_route_table_association" "zabbix-pub-association" {
 }
 
 variable "key_name" {
-    default = "general"
+    default = "sga-key"
 }
 
 locals {

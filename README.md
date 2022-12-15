@@ -38,7 +38,7 @@ Click no link para instalar o [AWS CLI](https://docs.aws.amazon.com/pt_br/cli/la
     ssh -i ec2.pem ubuntu@<ec2-ip>
     sudo apt-get update
 
-###Instale o Docker
+### Instale o Docker
 
     cd /tmp
     sudo curl https://raw.githubusercontent.com/mrodrigochaves/aws-docker-terraform-zabbix/main/docker-install.sh -O -J -L

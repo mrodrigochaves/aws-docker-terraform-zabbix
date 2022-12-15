@@ -66,6 +66,7 @@ locals {
 resource "aws_instance" "zabbix-sv" {
   ami           = "ami-0a6b2839d44d781b2"
   instance_type = "t2.micro"
+  key_name = var.key_name
   subnet_id	= aws_subnet.zabbix-public-subnet.id
   vpc_security_group_ids = ["${aws_security_group.zabbix-server-sg.id}"]
   associate_public_ip_address = true

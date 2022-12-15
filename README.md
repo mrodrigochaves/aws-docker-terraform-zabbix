@@ -9,7 +9,9 @@ Projeto de provisionamento de servidor Zabbix utilizando containeres Docker de f
 
 Instale o Terraform no Cloud Shell ou AWS CLI com os seguintes passos:
 
->>Execute:
+Click no link para instalar o [AWS CLI](https://docs.aws.amazon.com/pt_br/cli/latest/userguide/getting-started-install.html)
+
+>>Execute no Cloud ShellAWS:
     
     sudo yum install -y yum-utils
     sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
@@ -20,6 +22,7 @@ Instale o Terraform no Cloud Shell ou AWS CLI com os seguintes passos:
     curl https://mr-aws-zabbix.s3.amazonaws.com/terraform.zip -O -J -L
     unzip terraform.zip
     cd terraform
+
 
 >>Executando Terraform
     

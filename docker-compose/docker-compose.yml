@@ -61,6 +61,7 @@ services:
   grafana:
     container_name: grafana
     image: grafana/grafana:latest
+    user: 'root'
     networks:
       - network-zabbix
     links:
@@ -68,11 +69,9 @@ services:
       - zabbix-server
     restart: always
     ports:
-      - '3000:3000'
-    environment: 
-      - GF_PATHS_CONFIG = /grafana/config
-      - GF_PATHS_DATA = /srv/grafana/data
-      - GF_INSTALL_PLUGINS=alexanderzobnin-zabbix-app
+      - '8030:3000'
+    environment:
+      - GF_INSTALL_PLUGINS=alexanderzobnin-zabbix-app,raintank-worldping-app
     volumes:
       - grafana-config:/etc/grafana:rw
       - grafana-data:/var/lib/grafana:rw

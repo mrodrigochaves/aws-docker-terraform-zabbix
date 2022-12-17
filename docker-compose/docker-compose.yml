@@ -1,11 +1,11 @@
-version: '3'
+version: '3.1'
 networks:
   network-zabbix:
     driver: bridge
 services:
   mysql:
     container_name: mysql
-    image: mysql:latest
+    image: mysql:5.7
     networks:
       - network-zabbix
     ports:
@@ -15,7 +15,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=zabbix
-      - MYSQL_USER=root
+      - MYSQL_USER=zabbix
       - MYSQL_PASSWORD=admin
 
   zabbix-server:
@@ -33,7 +33,7 @@ services:
     environment:
       - DB_SERVER_HOST=mysql
       - MYSQL_DATABASE=zabbix
-      - MYSQL_USER=root
+      - MYSQL_USER=zabbix
       - MYSQL_PASSWORD=admin
     depends_on:
       - mysql
@@ -47,12 +47,12 @@ services:
       - mysql
     restart: always
     ports:
-      - '8010:8080'
+      - '80:8080'
       - '443:8443'
     environment:
       - DB_SERVER_HOST=mysql
       - MYSQL_DATABASE=zabbix
-      - MYSQL_USER=root
+      - MYSQL_USER=zabbix
       - MYSQL_PASSWORD=admin
       - PHP_TZ=America/Sao_Paulo
     depends_on:
@@ -61,7 +61,6 @@ services:
   grafana:
     container_name: grafana
     image: grafana/grafana:latest
-    user: 'root'
     networks:
       - network-zabbix
     links:
@@ -69,7 +68,7 @@ services:
       - zabbix-server
     restart: always
     ports:
-      - '8020:3000'
+      - '3000:3000'
     environment:
       - GF_INSTALL_PLUGINS=alexanderzobnin-zabbix-app,raintank-worldping-app
     volumes:

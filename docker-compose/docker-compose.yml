@@ -15,7 +15,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=zabbix
-      - MYSQL_USER=zabbix
+      - MYSQL_USER=root
       - MYSQL_PASSWORD=admin
 
   zabbix-server:
@@ -33,7 +33,7 @@ services:
     environment:
       - DB_SERVER_HOST=mysql
       - MYSQL_DATABASE=zabbix
-      - MYSQL_USER=zabbix
+      - MYSQL_USER=root
       - MYSQL_PASSWORD=admin
     depends_on:
       - mysql
@@ -47,12 +47,12 @@ services:
       - mysql
     restart: always
     ports:
-      - '8050:8080'
+      - '8010:8080'
       - '443:8443'
     environment:
       - DB_SERVER_HOST=mysql
       - MYSQL_DATABASE=zabbix
-      - MYSQL_USER=zabbix
+      - MYSQL_USER=root
       - MYSQL_PASSWORD=admin
       - PHP_TZ=America/Sao_Paulo
     depends_on:
@@ -69,7 +69,7 @@ services:
       - zabbix-server
     restart: always
     ports:
-      - '8030:3000'
+      - '8020:3000'
     environment:
       - GF_INSTALL_PLUGINS=alexanderzobnin-zabbix-app,raintank-worldping-app
     volumes:
@@ -85,7 +85,7 @@ services:
     image: gcr.io/google-containers/cadvisor:latest
     container_name: cadvisor
     ports:
-      - 8060:8080
+      - 8030:8080
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw

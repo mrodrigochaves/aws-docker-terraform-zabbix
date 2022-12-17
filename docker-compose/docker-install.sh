@@ -17,11 +17,5 @@ ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 # Verificando versão do Docker Compose
 docker-compose version
 
-# Efetuando download do arquivo YAML
-curl https://mr-aws-zabbix.s3.amazonaws.com/docker-compose.zip -O -J -L
-
-# Descompactando arquivos
-unzip docker-compose.zip
-
 # Efetuando pull das imagens configuradas
 docker-compose up -d

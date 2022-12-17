@@ -36,19 +36,18 @@ Click no link para instalar o [AWS CLI](https://docs.aws.amazon.com/pt_br/cli/la
 
     sudo chmod 400 ec2.pem
     ssh -i ec2.pem ubuntu@<ec2-ip>
-    sudo apt-get update
+    sudo su
+    apt update
 
 ### Baixando o arquivo Docker
 
     cd /tmp
     curl https://mr-aws-zabbix.s3.amazonaws.com/docker-compose.zip -O -J -L
-    sudo apt install unzip
-    sudo unzip docker-compose.zip
+    apt install unzip
+    unzip docker-compose.zip
 
 ### Instale e execute o Docker
 
-    sudo curl https://raw.githubusercontent.com/mrodrigochaves/aws-docker-terraform-zabbix/main/docker-install.sh -O -J -L
-    sudo chmod +x docker-install.sh
-    sudo ./docker-install.sh
-
-
+    chmod +x docker-install.sh
+    sed -i -e 's/\r$//' docker-install.sh
+    ./docker-install.sh

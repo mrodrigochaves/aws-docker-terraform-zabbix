@@ -118,7 +118,7 @@ resource "aws_security_group" "zabbix-server-sg" {
 variable "http_port" {
   description = "The port the web server will be listening"
   type        = number
-  default     = 8080
+  default     = 8010
 }
 output "public_ip" {
   value       = aws_instance.zabbix-sv.public_ip

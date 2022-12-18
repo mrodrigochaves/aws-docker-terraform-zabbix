@@ -51,3 +51,14 @@ Click no link para instalar o [AWS CLI](https://docs.aws.amazon.com/pt_br/cli/la
     chmod +x docker-install.sh
     sed -i -e 's/\r$//' docker-install.sh
     ./docker-install.sh
+    
+
+
+
+
+### Referências
+
+* [AWS](https://aws.amazon.com/pt/docker/)
+* [Zabbix](https://www.zabbix.com/documentation/current/en/manual/installation/containers)
+* [Digital Ocean](https://www.digitalocean.com/community/tutorials)
+* [CarryOn Tech](https://github.com/carryontech/zabbix-docker-compose)

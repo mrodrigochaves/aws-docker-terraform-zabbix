@@ -71,6 +71,12 @@ resource "aws_instance" "zabbix-sv" {
   vpc_security_group_ids = ["${aws_security_group.zabbix-server-sg.id}"]
   associate_public_ip_address = true
  
+ user_data = <<-EOF
+              #!/bin/bash
+              echo "Sucesso! Terraform & AWS" > index.html
+              nohup busybox httpd -f -p "${var.http_port}" &
+              EOF
+
   tags = {
     Name = "zabbix-sv"
     ambiente = "zabbix"
@@ -93,7 +99,7 @@ resource "aws_security_group" "zabbix-server-sg" {
   ingress {
     description = "HTTP to EC2"
     from_port   = 80
-    to_port     = 80
+    to_port     = var.http_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -108,6 +114,11 @@ resource "aws_security_group" "zabbix-server-sg" {
   tags = {
     Name = "zabbix-server-sg"
   }
+}
+variable "http_port" {
+  description = "The port the web server will be listening"
+  type        = number
+  default     = 80
 }
 output "public_ip" {
   value       = aws_instance.zabbix-sv.public_ip

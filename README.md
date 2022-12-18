@@ -44,7 +44,7 @@ Click no link para instalar o [AWS CLI](https://docs.aws.amazon.com/pt_br/cli/la
     cd /tmp
     curl https://mr-aws-zabbix.s3.amazonaws.com/docker-install.zip -O -J -L
     apt install unzip
-    unzip docker-compose.zip
+    unzip docker-install.zip
 
 ### Instale e execute o Docker
 

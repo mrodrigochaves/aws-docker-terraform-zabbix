@@ -47,7 +47,7 @@ services:
       - mysql
     restart: always
     ports:
-      - '80:8080'
+      - '8080:8080'
       - '443:8443'
     environment:
       - DB_SERVER_HOST=mysql
@@ -70,7 +70,7 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - GF_INSTALL_PLUGINS=alexanderzobnin-zabbix-app,raintank-worldping-app
+      - GF_INSTALL_PLUGINS=alexanderzobnin-zabbix-app
     volumes:
       - grafana-config:/etc/grafana:rw
       - grafana-data:/var/lib/grafana:rw
@@ -79,12 +79,27 @@ services:
       - mysql
       - zabbix-server
       - cadvisor
+  zabbix-agent:
+    container_name: zabbix-agent
+    image: zabbix/zabbix-agent:ubuntu-5.0-latest
+    user: root
+    networks:
+      - network-zabbix
+    links:
+      - zabbix-server
+    restart: always
+    privileged: true
+    ports:
+      - '10050:10050'
+    environment:
+      - ZBX_HOSTNAME=Zabbix server
+      - ZBX_SERVER_HOST=172.18.0.1
 
   cadvisor:
     image: gcr.io/google-containers/cadvisor:latest
     container_name: cadvisor
     ports:
-      - 8030:8080
+      - 8030:8030
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -100,21 +115,7 @@ services:
     ports:
     - 6379:6379
     networks:
-    - network-zabbix   
-  zabbix-agent:
-    container_name: zabbix-agent
-    image: zabbix/zabbix-agent:ubuntu-5.0-latest
-    user: root
-    networks:
-      - network-zabbix
-    links:
-      - zabbix-server
-    restart: always
-    privileged: true
-    ports:
-      - '10050:10050'
-    environment:
-      - ZBX_HOSTNAME=Zabbix server
+    - network-zabbix
 volumes:
     grafana-config:
     grafana-data:
